@@ -26,6 +26,7 @@ func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request) {
 	id := uuid.New().String()
 	randomNumber := rand.Intn(100 + 1)
 
+
 	// Create a new game instance and save it in the store
 	game := game.NewGame(id, randomNumber)
 	h.store.Save(game)
@@ -64,6 +65,10 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+	if request.Number < 0 || request.Number > 100 {
+		http.Error(w, "Number must be between 0 and 100", http.StatusBadRequest)
 		return
 	}
 
