@@ -1,9 +1,9 @@
 package handler
 
 import (
+	"encoding/json"
 	"math/rand"
 	"net/http"
-	"encoding/json"
 
 	"github.com/google/uuid"
 	"github.com/seuusername/guess-game/internal/game"
@@ -11,11 +11,11 @@ import (
 )
 
 type Handler struct {
-	store *store.Store	// store is a reference to the game storage, allowing the handler to save and retrieve game instances.
+	store *store.Store // store is a reference to the game storage, allowing the handler to save and retrieve game instances.
 }
 
-	// CreateGame handles the creation of a new game. It generates a unique ID and a random secret number, saves the game in the store, and responds with the game ID in JSON format.
-func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request){
+// CreateGame handles the creation of a new game. It generates a unique ID and a random secret number, saves the game in the store, and responds with the game ID in JSON format.
+func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -49,7 +49,7 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Extract the game ID from the URL path
-	id := r.URL.Path[len("/game/"):len(r.URL.Path)-len("/guess")]
+	id := r.PathValue("id")
 
 	// Retrieve the game instance from the store using the extracted ID
 	game, ok := h.store.Get(id)
@@ -70,7 +70,7 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 	// Check if the guessed number is correct and respond accordingly
 	correct := game.Guess(request.Number)
 	response := map[string]interface{}{
-		"correct": correct,
+		"correct":  correct,
 		"attempts": game.AttemptsMade,
 	}
 
@@ -83,7 +83,7 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewHandler creates a new instance of Handler with a reference to the game storage
-func NewHandler(store *store.Store) *Handler { 
+func NewHandler(store *store.Store) *Handler {
 	return &Handler{
 		store: store,
 	}
