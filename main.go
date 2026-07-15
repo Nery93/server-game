@@ -13,7 +13,9 @@ func main() {
 	// Create a new store for games
 	gameStore := store.NewStore()
 	createHandler := handler.NewHandler(gameStore)
+	
 	http.HandleFunc("/game", createHandler.CreateGame)
+	http.HandleFunc("/game/{id}/guess", createHandler.GuessNumber)
 
 	// Start the HTTP server
 	fmt.Println("Servidor iniciado na porta 8080")
