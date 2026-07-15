@@ -82,6 +82,33 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *Handler) GetGameStatus(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := r.PathValue("id")
+
+	game, ok := h.store.Get(id)
+	if !ok {
+		http.Error(w, "Game not found", http.StatusNotFound)
+		return
+	}
+	
+	response := map[string]interface{}{
+		"correct":  game.CorrectGuess,
+		"attempts": game.AttemptsMade,
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, "Error retrieving game status", http.StatusInternalServerError)
+		return
+	}
+}
+
 // NewHandler creates a new instance of Handler with a reference to the game storage
 func NewHandler(store *store.Store) *Handler {
 	return &Handler{
