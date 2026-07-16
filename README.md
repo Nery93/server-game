@@ -4,7 +4,7 @@ REST API in Go for a number guessing game. Multiple players can create independe
 
 ## 🚀 Technologies
 
-- **Go 1.23+** - Programming language
+- **Go 1.25+** - Programming language
 - **net/http** - Native HTTP server
 - **Docker & Docker Compose** - Containerization
 - **UUID** - Unique ID generation
@@ -112,7 +112,7 @@ curl http://localhost:8080/game/{id}
 # Install dependencies
 go mod download
 
-# Run tests (when implemented)
+# Run tests
 go test ./...
 
 # Build
