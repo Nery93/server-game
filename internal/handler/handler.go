@@ -14,6 +14,17 @@ type Handler struct {
 	store *store.Store // store is a reference to the game storage, allowing the handler to save and retrieve game instances.
 }
 
+// CreateGameResponse is the JSON body returned after creating a new game.
+type CreateGameResponse struct {
+	ID string `json:"id"`
+}
+
+// GuessResponse is the JSON body returned by the guess and status endpoints.
+type GuessResponse struct {
+	Correct  bool `json:"correct"`
+	Attempts int  `json:"attempts"`
+}
+
 // CreateGame handles the creation of a new game. It generates a unique ID and a random secret number, saves the game in the store, and responds with the game ID in JSON format.
 func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request) {
 
@@ -34,7 +45,7 @@ func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 
 	// Respond with the game ID in JSON format
-	err := json.NewEncoder(w).Encode(map[string]string{"id": id})
+	err := json.NewEncoder(w).Encode(CreateGameResponse{ID: id})
 	if err != nil {
 		http.Error(w, "Error creating game", http.StatusInternalServerError)
 		return
@@ -69,9 +80,9 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the guessed number is correct and respond accordingly
 	correct := game.Guess(request.Number)
-	response := map[string]interface{}{
-		"correct":  correct,
-		"attempts": game.AttemptsMade,
+	response := GuessResponse{
+		Correct:  correct,
+		Attempts: game.AttemptsMade,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -96,11 +107,11 @@ func (h *Handler) GetGameStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	response := map[string]interface{}{
-		"correct":  game.CorrectGuess,
-		"attempts": game.AttemptsMade,
+	response := GuessResponse{
+		Correct:  game.CorrectGuess,
+		Attempts: game.AttemptsMade,
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(response)
 	if err != nil {
