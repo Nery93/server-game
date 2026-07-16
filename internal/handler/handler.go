@@ -26,7 +26,6 @@ func (h *Handler) CreateGame(w http.ResponseWriter, r *http.Request) {
 	id := uuid.New().String()
 	randomNumber := rand.Intn(100 + 1)
 
-
 	// Create a new game instance and save it in the store
 	game := game.NewGame(id, randomNumber)
 	h.store.Save(game)
@@ -79,6 +78,12 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 		"attempts": game.AttemptsMade,
 	}
 
+	if !correct && game.AttemptsMade < game.MaxAttempts {
+		response["hint"] = game.GetHint(request.Number)
+	}
+	
+	response["attempts_left"] = game.GetAttemptsMessage()
+
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
@@ -100,12 +105,12 @@ func (h *Handler) GetGameStatus(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Game not found", http.StatusNotFound)
 		return
 	}
-	
+
 	response := map[string]interface{}{
 		"correct":  game.CorrectGuess,
 		"attempts": game.AttemptsMade,
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(response)
 	if err != nil {
