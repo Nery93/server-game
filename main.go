@@ -1,14 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/seuusername/guess-game/internal/handler"
 	"github.com/seuusername/guess-game/internal/store"
 )
 
 func main() {
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if not specified in environment variables
+	}
 
 	// Create a new store for games
 	gameStore := store.NewStore()
@@ -19,9 +25,10 @@ func main() {
 	http.HandleFunc("/game/{id}", createHandler.GetGameStatus)
 
 	// Start the HTTP server
-	fmt.Println("Servidor iniciado na porta 8080")
-	err := http.ListenAndServe(":8080", nil)
+	slog.Info("Server Started", "port", port)
+
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
-		fmt.Println("Erro ao iniciar o servidor:", err)
+		slog.Error("Server failed to start", "error", err)
 	}
 }
