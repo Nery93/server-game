@@ -25,6 +25,7 @@ type GuessResponse struct {
 	Attempts     int    `json:"attempts"`
 	Hint         string `json:"hint,omitempty"`
 	AttemptsLeft string `json:"attempts_left,omitempty"`
+	SecretNumber *int   `json:"secret_number,omitempty"`
 }
 
 // CreateGame handles the creation of a new game. It generates a unique ID and a random secret number, saves the game in the store, and responds with the game ID in JSON format.
@@ -96,6 +97,12 @@ func (h *Handler) GuessNumber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.AttemptsLeft = game.GetAttemptsMessage()
+
+	// Only reveal the secret number once the match has concluded (won or out of attempts).
+	if correct || game.AttemptsMade >= game.MaxAttempts {
+		secret := game.SecretNumber
+		response.SecretNumber = &secret
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(response)

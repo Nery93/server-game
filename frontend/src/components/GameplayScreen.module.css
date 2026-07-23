@@ -1,0 +1,140 @@
+.screen {
+  width: 100%;
+  max-width: 760px;
+  min-height: 620px;
+  margin: 0 auto;
+  background: var(--bg-screen);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 36px;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.round {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--cyan);
+}
+
+.hintBlock {
+  text-align: center;
+  padding: 18px 0 6px;
+  min-height: 76px;
+}
+
+.hintLine {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 4vw, 26px);
+  margin: 0;
+}
+
+.hintLine[data-direction='higher'] {
+  color: var(--yellow);
+  text-shadow: var(--yellow-glow);
+}
+
+.hintLine[data-direction='lower'] {
+  color: var(--magenta);
+  text-shadow: var(--magenta-glow);
+}
+
+.hintSub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.input {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--cyan);
+  background: var(--bg-panel);
+  border: 2px solid var(--cyan);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  width: 140px;
+  text-align: center;
+  box-shadow: inset 0 0 18px rgba(85, 255, 255, 0.15);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.fireButton {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--bg-screen);
+  background: var(--cyan);
+  border-radius: var(--radius);
+  padding: 14px 22px;
+  box-shadow: 0 0 18px rgba(85, 255, 255, 0.45);
+}
+
+.fireButton:disabled,
+.input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  font-size: 12px;
+  color: var(--red);
+  text-align: center;
+}
+
+.logSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  overflow-y: auto;
+}
+
+.logLabel {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+
+.logRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  background: var(--bg-panel-alt);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+}
+
+.logAttempt {
+  color: var(--text-muted);
+}
+
+.logGuess {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.logHint[data-direction='higher'] {
+  color: var(--yellow);
+}
+
+.logHint[data-direction='lower'] {
+  color: var(--magenta);
+}

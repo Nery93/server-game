@@ -1,0 +1,76 @@
+:root {
+  --bg-screen: #0a0a14;
+  --bg-screen-lose: #14060a;
+  --bg-panel: #12122a;
+  --bg-panel-alt: #12121e;
+
+  --border-hairline: #2a2a3e;
+  --border-hairline-lose: #3e2a2e;
+
+  --cyan: #5ff;
+  --cyan-glow: 0 0 18px rgba(85, 255, 255, 0.6);
+  --cyan-glow-soft: 0 0 18px rgba(85, 255, 255, 0.45);
+
+  --magenta: #f5f;
+  --magenta-glow: 0 0 24px rgba(255, 85, 255, 0.55);
+  --magenta-glow-soft: 0 0 8px rgba(255, 85, 255, 0.55);
+
+  --yellow: #ff5;
+  --yellow-glow: 0 0 16px rgba(255, 255, 85, 0.5);
+
+  --green: #5f5;
+  --green-glow: 0 0 26px rgba(85, 255, 85, 0.7);
+
+  --red: #f55;
+  --red-glow: 0 0 26px rgba(255, 85, 85, 0.7);
+  --red-glow-soft: 0 0 16px rgba(255, 85, 85, 0.3);
+
+  --heart-empty: #2a2a3e;
+  --heart-empty-lose: #2e1a1e;
+
+  --text-primary: #e8e8ec;
+  --text-muted: #8888a8;
+  --text-dim: #44445c;
+
+  --font-display: 'Press Start 2P', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius: 4px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: var(--bg-screen);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}

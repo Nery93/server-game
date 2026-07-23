@@ -1,0 +1,14 @@
+.row {
+  display: flex;
+  gap: 5px;
+  font-size: 18px;
+}
+
+.filled {
+  color: var(--magenta);
+  text-shadow: var(--magenta-glow-soft);
+}
+
+.empty {
+  color: var(--heart-empty);
+}
